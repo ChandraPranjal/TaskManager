@@ -5,6 +5,8 @@ import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import IconButton from "@mui/material/IconButton";
 
+import TaskSearch from "../Search/Search";
+
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -62,6 +64,7 @@ export default function Board({ data }) {
 
   return (
     <div className="h-full w-full bg-gray-100 flex justify-between">
+      <TaskSearch data={data}/>
       <div className="flex h-full w-[95vw] bg-white shadow-md items-center overflow-x-auto mx-5">
         <DragDropContext onDragEnd={onDragEnd}>
           {state.map((columnData, columnIndex) => (

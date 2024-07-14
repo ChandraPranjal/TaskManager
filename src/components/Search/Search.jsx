@@ -1,232 +1,67 @@
-import React from "react";
-import Fuse from "fuse.js";
-import debounce from "lodash.debounce";
+import React, { useState } from 'react';
 
-function Search({ data }) {
-  // const res = searchProcess();
 
-  const [searchResult, setSearchResult] = useState([]);
-  // let searchResult;
-  let fuse;
-
-  // TODO: set the init logic in the right way
-  const buildIndex = () => {
-    fuse = new Fuse(data, {
-      // includeMatches: true,
-      includeScore: true,
-      // threshold: 0.3,
-      useExtendedSearch: true,
-      keys: ["title", "sections.name", "sections.content"],
-      // keys: ["page", "sections.title", "sections.content"]
-    });
-  };
-
-  useEffect(() => {
-    buildIndex();
-  }, [buildIndex]);
-
-  // buildIndex()
+const TaskSearch = ({data}) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
 
   const handleSearch = (e) => {
     const query = e.target.value;
-
-    if (query === "") {
-      setSearchResult([]);
-
+    setSearchTerm(query);
+    if (query.trim() === '') {
+      setResults([]);
       return;
     }
 
-    const doSearch = debounce(
-      () => {
-        const res = fuse.search("'" + query); // find the item include query string
+    const lowerCaseQuery = query.toLowerCase();
+    const foundTasks = [];
 
-        setSearchResult(searchHighlight(res, query));
-      },
-      500,
-      {
-        leading: true,
-        trailing: false,
-      }
-    );
+    data.forEach(column => {
+      column.tasksData.forEach(task => {
+        const { title, type, description, assignee, tags } = task.content;
 
-    doSearch();
-  };
-
-  const renderResult = (res) => {
-    const resList = res.map((item) => {
-      // console.log(item);
-
-      return (
-        <li className="item" key={item.id}>
-          <div
-            className="header"
-            dangerouslySetInnerHTML={{ __html: item.title }}
-          />
-          {item.sections.map((section, index) => (
-            <section className="section" key={index}>
-              <div
-                className="section-name"
-                dangerouslySetInnerHTML={{ __html: section.name }}
-              />
-              <div
-                className="section-content"
-                dangerouslySetInnerHTML={{ __html: section.content }}
-              />
-            </section>
-          ))}
-        </li>
-      );
-    });
-
-    return resList;
-  };
-
-  const searchHighlight = (res, queryStr) => {
-    const filteredRes = JSON.parse(JSON.stringify(res)).map((data) => {
-      const searchText = queryStr.toLowerCase().trim();
-
-      if (data.item.title.toLowerCase().includes(searchText)) {
-        const regExp = new RegExp(searchText, "ig");
-
-        data.item.title = data.item.title.replace(
-          regExp,
-          "<mark class='highlight'>$&</mark>"
-        );
-      }
-
-      data.item.sections = data.item.sections.filter((section) => {
-        let flag = false;
-
-        if (section.content.toLowerCase().includes(searchText)) {
-          const matchSnippetObject = getMatchSnippet(
-            section.content,
-            searchText
-          );
-
-          if (matchSnippetObject) {
-            const { isToLeftEnd, isToRightEnd, snippet } = matchSnippetObject;
-            const regExp = new RegExp(searchText, "ig");
-
-            const highlightContent = snippet.replace(
-              regExp,
-              "<mark class='highlight'>$&</mark>"
-            );
-
-            if (isToLeftEnd && isToRightEnd) {
-              section.content = highlightContent;
-            } else if (!isToLeftEnd && isToRightEnd) {
-              section.content = `...${highlightContent}`;
-            } else if (isToLeftEnd && !isToRightEnd) {
-              section.content = `${highlightContent}...`;
-            } else {
-              section.content = `...${highlightContent}...`;
-            }
-          }
-
-          flag = true;
-        } else {
-          section.content = "";
+        if (
+          title.toLowerCase().includes(lowerCaseQuery) ||
+          type.toLowerCase().includes(lowerCaseQuery) ||
+          description.toLowerCase().includes(lowerCaseQuery) ||
+          assignee.toLowerCase().includes(lowerCaseQuery) ||
+          tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))
+        ) {
+          foundTasks.push(task);
         }
-
-        if (section.name.toLowerCase().includes(searchText)) {
-          const regExp = new RegExp(searchText, "ig");
-
-          section.name = section.name.replace(
-            regExp,
-            "<mark class='highlight'>$&</mark>"
-          );
-
-          flag = true;
-        }
-
-        return flag;
       });
-
-      return data.item;
     });
 
-    return filteredRes;
+    setResults(foundTasks);
   };
-
-  function getMatchSnippet(string, term, numOfWords = 6) {
-    const index = string.toLowerCase().indexOf(term.toLowerCase());
-
-    if (index >= 0) {
-      const _ws = [" ", "\t", "\n"]; // Whitespace
-      const _pm = [".", "?", "!"]; // Punctuation marks
-
-      let whitespace = 0;
-
-      let left = 0;
-      let isToLeftEnd = false;
-
-      let right = 0;
-      let isToRightEnd = false;
-
-      // right trim index
-      for (right = index + term.length; whitespace < numOfWords; right++) {
-        if (right >= string.length || _pm.indexOf(string[right]) >= 0) {
-          isToRightEnd = true;
-          break;
-        }
-
-        if (_ws.indexOf(string[right]) >= 0) {
-          whitespace += 1;
-        }
-      }
-
-      whitespace = 0; // reset the counter of whitespace
-      // left trim index
-      for (left = index; whitespace < numOfWords; left--) {
-        if (left < 0 || _pm.indexOf(string[left]) >= 0) {
-          isToLeftEnd = true;
-          break;
-        }
-
-        if (_ws.indexOf(string[left]) >= 0) {
-          whitespace += 1;
-        }
-      }
-
-      let offsetLeft = 0;
-      let offsetRight = 0;
-
-      if (isToLeftEnd && isToRightEnd) {
-        offsetLeft = 1;
-        offsetRight = 1;
-      } else if (!isToLeftEnd && isToRightEnd) {
-        offsetLeft = 1;
-        offsetRight = 1;
-      } else if (isToLeftEnd && !isToRightEnd) {
-        offsetLeft = 1;
-        offsetRight = 0;
-      } else {
-        offsetLeft = 1;
-        offsetRight = 0;
-      }
-
-      return {
-        isToLeftEnd,
-        isToRightEnd,
-        snippet: string.slice(left + offsetLeft, right + offsetRight), // return match
-      };
-    }
-
-    return; // return nothing
-  }
 
   return (
-    <div className="App">
+    <div>
+      <h1>Task Search</h1>
+      <input
+        type="text"
+        placeholder="Search tasks..."
+        value={searchTerm}
+        onChange={handleSearch}
+        className="border rounded p-2 mb-4"
+      />
       <div>
-        <input type="search" onChange={(e) => handleSearch(e)} />
+        {results.length > 0 ? (
+          results.map(task => (
+            <div key={task.id} className="border p-2 mb-2">
+              <h2>{task.content.title}</h2>
+              <p>Type: {task.content.type}</p>
+              <p>Description: {task.content.description}</p>
+              <p>Assignee: {task.content.assignee}</p>
+              <p>Tags: {task.content.tags.join(', ')}</p>
+            </div>
+          ))
+        ) : (
+          <p>No tasks found.</p>
+        )}
       </div>
-      <ul>
-        {Array.isArray(searchResult) && searchResult.length !== 0
-          ? renderResult(searchResult)
-          : renderResult(data)}
-      </ul>
     </div>
   );
-}
+};
 
-export default Search;
+export default TaskSearch;
