@@ -1,29 +1,32 @@
-import React from 'react'
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Item from '../Item/Item';
+import React from "react";
+import { Droppable} from "react-beautiful-dnd";
+import Task from "../Task/Task";
 
-
-
-function Column({el,ind,state,setState}) {
+function Column({ columnData, columnIndex, state, setState }) {
   return (
-    <Droppable key={ind} droppableId={`${ind}`}>
-    {(provided, snapshot) => (
-      <div
-        ref={provided.innerRef}
-        className={`${
-          snapshot.isDraggingOver ? "bg-sky-200" : "bg-slate-200"
-        }  w-[30%] m-2`}
-        //   style={getListStyle(snapshot.isDraggingOver)}
-        {...provided.droppableProps}
-      >
-        {el.tasksData.map((item, index) => (
-            <Item item={item} index = {index} state = {state} setState={setState} ind = {ind}/>
-        ))}
-        {provided.placeholder}
-      </div>
-    )}
-  </Droppable>
-  )
+    <Droppable key={columnIndex} droppableId={`${columnIndex}`}>
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          className={`${
+            snapshot.isDraggingOver ? "bg-sky-200" : "bg-slate-200"
+          }  min-w-[30%] mx-2 h-[90%] overflow-x-auto`}
+          {...provided.droppableProps}
+        >
+          {columnData.tasksData.map((item, index) => (
+            <Task
+              item={item}
+              rowIndex={index}
+              state={state}
+              setState={setState}
+              columnIndex={columnIndex}
+            />
+          ))}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  );
 }
 
-export default Column
+export default Column;

@@ -1,5 +1,5 @@
 import React from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 
 const getItemStyle = (isDragging, draggableStyle) => ({
     userSelect: "none",
@@ -9,15 +9,14 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     ...draggableStyle,
   });
 
-function Item({ item, index, state, setState , ind }) {
+function Task({ item, rowIndex, state, setState , columnIndex }) {
   return (
-    <Draggable key={item.id} draggableId={item.id} index={index}>
+    <Draggable key={item.id} draggableId={item.id} index ={rowIndex}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          //    className={`p-4 select-none mb-${grid} ${snapshot.isDragging ? 'bg-lightgreen' : 'bg-gray-500'} border-gray-300`}
           style={getItemStyle(
             snapshot.isDragging,
             provided.draggableProps.style
@@ -34,7 +33,7 @@ function Item({ item, index, state, setState , ind }) {
               type="button"
               onClick={() => {
                 const newState = [...state];
-                newState[ind].tasksData.splice(index, 1);
+                newState[columnIndex].tasksData.splice(rowIndex, 1);
                 setState(newState);
               }}
             >
@@ -47,4 +46,4 @@ function Item({ item, index, state, setState , ind }) {
   );
 }
 
-export default Item;
+export default Task;
