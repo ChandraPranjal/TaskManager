@@ -5,20 +5,93 @@ const data = [
   {
     columnName: "Col1",
     tasksData: [
-      { id: "id0", content: "item 0" },
-      { id: "id1", content: "item 1" },
-      { id: "id2", content: "item 2" },
+      {
+        id: "id0",
+        content: {
+          title: "Fix login bug",
+          type: "BUG",
+          effortEstimation: "3 hours",
+          priority: "P0",
+          description: "Resolve the issue with user login.",
+          attachments: [],
+          assignee: "John Doe",
+          tags: ["bug", "login"]
+        }
+      },
+      {
+        id: "id1",
+        content: {
+          title: "Add user profile feature",
+          type: "FEATURE",
+          effortEstimation: "5 days",
+          priority: "P1",
+          description: "Implement user profile functionality.",
+          attachments: [],
+          assignee: "Jane Smith",
+          tags: ["feature", "user"]
+        }
+      },
+      {
+        id: "id2",
+        content: {
+          title: "Refactor codebase",
+          type: "MAINTENANCE",
+          effortEstimation: "2 weeks",
+          priority: "P2",
+          description: "Improve code structure and performance.",
+          attachments: [],
+          assignee: "Emily Johnson",
+          tags: ["maintenance", "refactor"]
+        }
+      },
     ],
   },
   {
     columnName: "Col2",
     tasksData: [
-      { id: "id3", content: "item 3" },
-      { id: "id4", content: "item 4" },
-      { id: "id5", content: "item 5" },
+      {
+        id: "id3",
+        content: {
+          title: "Update documentation",
+          type: "TASK",
+          effortEstimation: "1 day",
+          priority: "P1",
+          description: "Revise and update project documentation.",
+          attachments: [],
+          assignee: "Michael Brown",
+          tags: ["documentation", "update"]
+        }
+      },
+      {
+        id: "id4",
+        content: {
+          title: "Design new homepage",
+          type: "FEATURE",
+          effortEstimation: "1 week",
+          priority: "P0",
+          description: "Create a new design for the homepage.",
+          attachments: [],
+          assignee: "Sophia Lee",
+          tags: ["design", "homepage"]
+        }
+      },
+      {
+        id: "id5",
+        content: {
+          title: "Setup CI/CD pipeline",
+          type: "TASK",
+          effortEstimation: "4 days",
+          priority: "P2",
+          description: "Automate the build and deployment process.",
+          attachments: [],
+          assignee: "David Wilson",
+          tags: ["ci/cd", "automation"]
+        }
+      },
     ],
   },
 ];
+
 
 function App() {
   return (

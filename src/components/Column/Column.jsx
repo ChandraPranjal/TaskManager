@@ -9,8 +9,8 @@ function Column({ columnData, columnIndex, state, setState }) {
         <div
           ref={provided.innerRef}
           className={`${
-            snapshot.isDraggingOver ? "bg-sky-200" : "bg-slate-200"
-          }  min-w-[30%] mx-2 h-[90%] overflow-x-auto`}
+            snapshot.isDraggingOver ? "bg-sky-200" : "bg-slate-200 overflow-y-auto"
+          }  min-w-[30%] mx-2 h-[90%]`}
           {...provided.droppableProps}
         >
           {columnData.tasksData.map((item, index) => (

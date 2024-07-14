@@ -85,7 +85,7 @@ export default function Board({ data }) {
             ]);
           }}
         >
-          <PlaylistAddIcon className="text-white" />
+          <PlaylistAddIcon className="text-white sm:text-icon-sm md:text-icon-md lg:text-icon-lg" />
         </IconButton>
         <IconButton
           aria-label="Add Task"
