@@ -66,10 +66,10 @@ function Task({ item, rowIndex, state, setState, columnIndex }) {
           className="m-2 p-2 h-[50%]"
         >
           <article className="p-4 mb-4 h-full bg-white rounded shadow-sm overflow-y-auto">
-            <header className="flex justify-between items-center mb-2">
-              <h2 className="text-lg font-semibold">{item.content.title}</h2>
-              <div className="flex items-center">
-                <Chip label={item.content.type} color="primary" size="small" />
+            <header className=" mb-2">
+              <h2 className="md:text-lg text-md font-semibold">{item.content.title}</h2>
+              <div className="flex justify-between items-center">
+                <Chip label={item.content.type} color="primary" size="small" className="text-xs" />
                 <IconButton
                   onClick={() => {
                     const newState = [...state];

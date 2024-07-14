@@ -61,8 +61,8 @@ export default function Board({ data }) {
   }
 
   return (
-    <div className="h-full w-full bg-gray-100 flex">
-      <div className="flex h-full w-[96vw] bg-white shadow-md items-center overflow-x-auto">
+    <div className="h-full w-full bg-gray-100 flex justify-between">
+      <div className="flex h-full w-[95vw] bg-white shadow-md items-center overflow-x-auto mx-5">
         <DragDropContext onDragEnd={onDragEnd}>
           {state.map((columnData, columnIndex) => (
             <Column
@@ -75,7 +75,7 @@ export default function Board({ data }) {
           ))}
         </DragDropContext>
       </div>
-      <div className="bg-blue-500 w-[4vw] flex flex-col items-center justify-center">
+      <div className="bg-blue-500  flex flex-col items-center justify-center">
         <IconButton
           aria-label="Add Column"
           onClick={() => {
@@ -85,7 +85,7 @@ export default function Board({ data }) {
             ]);
           }}
         >
-          <PlaylistAddIcon className="text-white sm:text-icon-sm md:text-icon-md lg:text-icon-lg" />
+          <PlaylistAddIcon className="text-white" style={{ fontSize: "1rem" }} />
         </IconButton>
         <IconButton
           aria-label="Add Task"
@@ -98,7 +98,7 @@ export default function Board({ data }) {
             setState(newState);
           }}
         >
-          <AddTaskIcon className="text-white" />
+          <AddTaskIcon className="text-white" style={{ fontSize: "1rem" }} />
         </IconButton>
       </div>
     </div>
