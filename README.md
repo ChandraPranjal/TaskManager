@@ -11,7 +11,7 @@ To get started with the project, follow these steps:
 
 2. Install the necessary dependencies:
    ```bash
-   npm install
+   npm install --legacy-peer-deps
    ```
 
 3. Start the application:
