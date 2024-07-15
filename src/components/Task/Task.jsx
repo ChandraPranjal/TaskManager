@@ -63,9 +63,9 @@ function Task({ item, rowIndex, state, setState, columnIndex }) {
             snapshot.isDragging,
             provided.draggableProps.style
           )}
-          className="m-2 p-2 h-[50%]"
+          className="m-2 p-2 h-[50%] border-r-2 shadow-md"
         >
-          <article className="p-4 mb-4 h-full bg-white rounded shadow-sm overflow-y-auto">
+          <article className="p-4 mb-4 h-full bg-white rounded-lg border-r-2  shadow-lg overflow-y-auto">
             <header className=" mb-2">
               <h2 className="md:text-lg text-md font-semibold">{item.content.title}</h2>
               <div className="flex justify-between items-center">

@@ -29,7 +29,7 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 export default function Board({ data }) {
   const [state, setState] = useState(data);
-  const [searchToggle, setSearchToggle] = useState("false");
+  const [searchToggle, setSearchToggle] = useState(false);
 
   function onDragEnd(result) {
     const { source, destination } = result;
