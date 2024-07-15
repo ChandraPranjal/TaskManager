@@ -84,6 +84,7 @@ export default function Board({ data }) {
       <div className="bg-blue-500  flex flex-col items-center justify-center">
         <IconButton
           aria-label="Add Column"
+          title="Add Column"
           onClick={() => {
             setState([
               ...state,
@@ -98,6 +99,7 @@ export default function Board({ data }) {
         </IconButton>
         <IconButton
           aria-label="Add Task"
+          title="Add Task"
           onClick={() => {
             const newState = [...state];
             newState[0].tasksData.push({
@@ -111,6 +113,7 @@ export default function Board({ data }) {
         </IconButton>
         <IconButton
           aria-label="Search Task"
+          title="Search Task"
           onClick={() => {
             setSearchToggle((prev) => !prev);
           }}

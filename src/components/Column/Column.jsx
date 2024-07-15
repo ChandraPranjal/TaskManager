@@ -55,6 +55,7 @@ function Column({ columnData, columnIndex, state, setState }) {
               />
             ) : (
               <h2
+                title="click to edit"
                 className="md:text-2xl text-center cursor-pointer"
                 onDoubleClick={handleDoubleClick}
               >
@@ -62,7 +63,8 @@ function Column({ columnData, columnIndex, state, setState }) {
               </h2>
             )}
             <IconButton
-              aria-label="Delete Task"
+              aria-label="Delete Column"
+              title="Delete Column"
               onClick={() => {
                 const updatedColumns=  state.filter((_, index) => index !== columnIndex);
                 setState(updatedColumns);
