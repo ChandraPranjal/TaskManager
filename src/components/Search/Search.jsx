@@ -20,11 +20,11 @@ const TaskSearch = ({ data, searchToggle }) => {
         const { title, type, description, assignee, tags } = task.content;
 
         if (
-          title.toLowerCase().includes(lowerCaseQuery) ||
-          type.toLowerCase().includes(lowerCaseQuery) ||
-          description.toLowerCase().includes(lowerCaseQuery) ||
-          assignee.toLowerCase().includes(lowerCaseQuery) ||
-          tags.some((tag) => tag.toLowerCase().includes(lowerCaseQuery))
+          (title && title.toLowerCase().includes(lowerCaseQuery)) ||
+          (type && type.toLowerCase().includes(lowerCaseQuery)) ||
+          (description && description.toLowerCase().includes(lowerCaseQuery) )||
+          (assignee && assignee.toLowerCase().includes(lowerCaseQuery) )||
+          (tags && tags.some((tag) => tag.toLowerCase().includes(lowerCaseQuery)))
         ) {
           foundTasks.push(task);
         }
